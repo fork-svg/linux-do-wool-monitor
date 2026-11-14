@@ -21,8 +21,131 @@
       "likes": 0,
       "created_at": "2026-11-14T16:53:25.080185+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "wen jian zhang ( @wen_jian_zhang ) 在 不会用gemini啊 中发",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "wen jian zhang ( @wen_jian_zhang ) 在 不会用gemini啊 中发帖 一直以来都用的本地agent 也习惯了电脑 ⬆ 什么东西都让他全权负责 而且最近狗运3个claude一直没有kyc 而且还是万人梯 也没事 用了快一个月了 但是确实还是太贵了 今天刷到gemini新模型 好难用啊 大家一般怎么使用啊 顺手吗 可以懒癌患者使用吗",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520275+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "beckymartin 在 真心觉得，国产大模型需要包容和机会，AI 不能让美国一家说了算（写在大K",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "beckymartin 在 真心觉得，国产大模型需要包容和机会，AI 不能让美国一家说了算（写在大KYC时代） 中发帖 [note]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520334+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "linquanjin 在 Gemini登上用不了咋办 中发帖 [image] 咋办",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "linquanjin 在 Gemini登上用不了咋办 中发帖 [image] 咋办",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520356+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "@kyfd 在 求助 wise被卡 中发帖 [IMG_1141] 求助佬们：之前薅了一笔八达通的羊毛",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@kyfd 在 求助 wise被卡 中发帖 [IMG_1141] 求助佬们：之前薅了一笔八达通的羊毛，然后想删卡退钱。八达通让提供一个香港账户作为收款账户，我提供了wise的香港账户。但是wise要求提供交易凭证我提供不出来怎么办",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520398+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "星辰此渊 ( @Tizenry ) 在 半夜开发ai日记，果然这种文字冒险越改越来劲~嘿嘿 中发帖 ",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "星辰此渊 ( @Tizenry ) 在 半夜开发ai日记，果然这种文字冒险越改越来劲~嘿嘿 中发帖 从上个帖子那个token流浪之旅继续 开发途中莫名很多想法 比如 特殊事件？！ [IMG_20261115_003220] 再比如好感度不足无法招募ai？ [IMG_20261115_003349] 再比如ai娘们的好感度cg？ [IMG_20261115_003527] 又或者是 对食物获取渠道的增多，ai战场技能的增加 ai养成系统 战斗系统 交易系统 使用gpt重绘ai立绘等等 敬请期待下一个版本。",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520457+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "AI聚合平台 ( @Nope ) 在 【富可敌国】【OpenLux】11/15｜Gemini 4 H",
+      "url": "",
+      "models": [
+        "Gemini",
+        "gemini-"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "AI聚合平台 ( @Nope ) 在 【富可敌国】【OpenLux】11/15｜Gemini 4 Hydrogen 上新，留 ID 送 3.5 元 中发帖 佬友们，OpenLux 又多了一个可以试试的型号：Gemini 4 Hydrogen，模型名是 gemini-4-hydrogen。 想换个模型做对比的话，可以带一个熟悉的小任务试试，看看输出是否适合自己的需求。接入方式、支持参数、可用分组和费用，请对照 OpenLux 站内文档与模型页面；也欢迎在楼里交流实际使用感受。 佬友体验活动：在本帖评论留下你的 OpenLux 站内 ID，赠送人民币 3.5 元体验额度。 注册并体验 OpenLu",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520557+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "miao ( @miao1 ) 在 LD士多里的Client ID（PID）和 Client Key",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "miao ( @miao1 ) 在 LD士多里的Client ID（PID）和 Client Key怎么配置 中发帖 请问是要自己写一串字符吗，找半天没找到有查看的地方",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520606+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "@haahow 在 ai studio和vertexAI的api key能在sub2api里反代出来",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@haahow 在 ai studio和vertexAI的api key能在sub2api里反代出来使用吗？会像antigravity那样反代被封号吗？ 中发帖 ai studio和vertexAI的api key能在sub2api里反代出来使用吗？会像antigravity那样反代被封号吗？ 有没有佬说一下。谢谢",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520661+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "lw_wl ( @ChirstCul ) 在 疑似被路由到gpt6.2 中发帖 连测两次指纹，如图：",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "lw_wl ( @ChirstCul ) 在 疑似被路由到gpt6.2 中发帖 连测两次指纹，如图： [f8fc15a085f0df76e41225bc74ed365a] [c969c7eebcbe8a9f8fe173952993e10a] 正常来说gpt6.1sol测出来都是98%往上的，但是如果是降智的话基本是100%的5.6luna。然后画了一下鹈鹕，发现画的还不错： [image] 以及： [image] 且6.1sol很明显整体色调是不同的： [image]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520715+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "@silencesilme 在 用AI做东西，还是要切记当年的一句至理名言“不要重复造轮子” 中发帖",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@silencesilme 在 用AI做东西，还是要切记当年的一句至理名言“不要重复造轮子” 中发帖 自己兴冲冲地搞了一套AI的刷题系统，卡在了卷子里面的图像识别题这一步。使用本地OCR软件加AI识别的方法，也是错误频出。浪费了不少时间还有token。 最后生气了索性放在了那里，不再搞。 后来刷抖音，竟然直接搜到了有人做的现成题库软件，还是github上开源的。 早知道就不自己搞得那么辛苦了，有啥想法就应该问问chatgpt有没有现成的 😅",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-14T16:55:27.520769+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-14T16:53:25.080276+00:00",
-  "total_fetched": 1
+  "last_update": "2026-11-14T16:55:27.520840+00:00",
+  "total_fetched": 11
 }
