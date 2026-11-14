@@ -1,106 +1,94 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Linux.do 羊毛监控 - 使用 Playwright 绕过 Cloudflare
+Linux.do 羊毛监控 - 通过 Telegram 频道获取数据
 """
 
 import json
-import os
 import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+try:
+    import requests
+except ImportError:
+    import subprocess
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "requests", "-q"])
+    import requests
+
 # 配置
-BASE_URL = "https://linux.do"
-CATEGORY_ID = 36  # 福利羊毛分类
+TELEGRAM_CHANNEL = "linux_do_channel"
+TELEGRAM_PREVIEW_URL = f"https://t.me/s/{TELEGRAM_CHANNEL}"
 OUTPUT_DIR = Path("data")
 README_PATH = Path("README.md")
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "Accept": "text/html,application/xhtml+xml",
+    "Accept-Language": "zh-CN,zh;q=0.9",
+}
 
 
-def fetch_with_playwright():
-    """使用 Playwright 绕过 Cloudflare 获取数据"""
+def fetch_telegram_messages():
+    """从 Telegram 公开预览页面获取消息"""
+    print(f"获取 Telegram 频道: @{TELEGRAM_CHANNEL}")
+
     try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        print("安装 playwright...")
-        import subprocess
-        subprocess.check_call([sys.executable, "-m", "pip", "install", "playwright", "-q"])
-        subprocess.check_call([sys.executable, "-m", "playwright", "install", "chromium"])
-        from playwright.sync_api import sync_playwright
+        resp = requests.get(TELEGRAM_PREVIEW_URL, headers=HEADERS, timeout=15)
+        resp.raise_for_status()
+        html = resp.text
+    except Exception as e:
+        print(f"请求失败: {e}")
+        return []
 
-    all_topics = []
+    messages = []
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        context = browser.new_context(
-            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-        )
-        page = context.new_page()
+    # 解析消息
+    # Telegram 预览页面的消息结构
+    msg_pattern = r'<div class="tgme_widget_message_text[^>]*>([^<]*(?:<[^>]+>[^<]*)*)</div>'
+    for match in re.finditer(msg_pattern, html, re.DOTALL):
+        content = match.group(1)
+        # 清理 HTML 标签
+        text = re.sub(r'<[^>]+>', ' ', content)
+        text = text.strip()
+        if text and len(text) > 20:
+            messages.append({"text": text, "source": "telegram"})
 
-        # 访问分类页面
-        for page_num in range(3):
-            url = f"{BASE_URL}/c/welfare/{CATEGORY_ID}"
-            if page_num > 0:
-                url += f"?page={page_num}"
+    # 尝试另一种模式
+    if not messages:
+        msg_pattern2 = r'class="tgme_widget_message_text[^"]*"[^>]*>(.*?)</div>'
+        for match in re.finditer(msg_pattern2, html, re.DOTALL):
+            content = match.group(1)
+            text = re.sub(r'<[^>]+>', ' ', content).strip()
+            if text and len(text) > 20:
+                messages.append({"text": text, "source": "telegram"})
 
-            print(f"抓取第 {page_num + 1} 页: {url}")
+    # 如果还是空，尝试更宽松的匹配
+    if not messages:
+        # 提取所有看起来像帖子的内容
+        post_blocks = re.findall(r'data-post="[^"]+">(.*?)</div>\s*</div>\s*</div>', html, re.DOTALL)
+        for block in post_blocks:
+            text = re.sub(r'<[^>]+>', ' ', block).strip()
+            text = re.sub(r'\s+', ' ', text)
+            if len(text) > 50 and ('key' in text.lower() or 'api' in text.lower() or '模型' in text or '免费' in text):
+                messages.append({"text": text, "source": "telegram"})
 
-            try:
-                page.goto(url, timeout=30000, wait_until="networkidle")
-                page.wait_for_timeout(3000)  # 等待 Cloudflare 验证
+    print(f"  发现 {len(messages)} 条消息")
+    return messages
 
-                # 检查是否通过 Cloudflare
-                title = page.title()
-                if "moment" in title.lower() or "challenge" in title.lower():
-                    print("  Cloudflare 验证中，等待...")
-                    page.wait_for_timeout(10000)
 
-                # 获取页面内容
-                content = page.content()
-
-                # 检查是否有帖子列表
-                if "topic-list" in content or "topic-list-item" in content:
-                    print("  ✅ 成功获取页面")
-
-                    # 使用 JavaScript 提取数据
-                    topics = page.evaluate("""
-                        () => {
-                            const items = document.querySelectorAll('.topic-list-item');
-                            const results = [];
-                            items.forEach(item => {
-                                const titleEl = item.querySelector('.title a, .main-link a');
-                                const authorEl = item.querySelector('.posters a:last-child');
-                                const viewsEl = item.querySelector('.views span');
-                                const likesEl = item.querySelector('.likes span');
-                                const activityEl = item.querySelector('.activity span');
-
-                                if (titleEl) {
-                                    results.push({
-                                        title: titleEl.textContent.trim(),
-                                        url: titleEl.href,
-                                        author: authorEl ? authorEl.textContent.trim() : '',
-                                        views: viewsEl ? parseInt(viewsEl.textContent.trim()) || 0 : 0,
-                                        likes: likesEl ? parseInt(likesEl.textContent.trim()) || 0 : 0,
-                                        activity: activityEl ? activityEl.textContent.trim() : '',
-                                    });
-                                }
-                            });
-                            return results;
-                        }
-                    """)
-
-                    print(f"  发现 {len(topics)} 个帖子")
-                    all_topics.extend(topics)
-                else:
-                    print(f"  ❌ 未找到帖子列表 (title: {title})")
-
-            except Exception as e:
-                print(f"  错误: {e}")
-
-        browser.close()
-
-    return all_topics
+def fetch_from_web_cache():
+    """尝试从 Google Cache 或其他缓存获取"""
+    # 尝试从 Web Archive 获取
+    print("尝试 Web Archive...")
+    try:
+        url = f"https://web.archive.org/web/2024/https://linux.do/c/welfare/36.json"
+        resp = requests.get(url, headers=HEADERS, timeout=10)
+        if resp.status_code == 200:
+            return resp.json()
+    except:
+        pass
+    return None
 
 
 def extract_urls(text):
@@ -122,8 +110,10 @@ def extract_keys(text):
     if not text:
         return []
     keys = []
+    # sk- 开头的 key
     sk_pattern = r'sk-[a-zA-Z0-9_-]{20,}'
     keys.extend(re.findall(sk_pattern, text))
+    # code/key 后面的
     code_pattern = r'(?:code|key|密钥|密码)[：:\s]*[`\s]*([a-zA-Z0-9_-]{16,})[`\s]*'
     for match in re.findall(code_pattern, text, re.IGNORECASE):
         if match not in keys:
@@ -139,12 +129,9 @@ def extract_models(text):
     model_patterns = [
         r'gpt-[34][\w.-]*', r'o[13][\w.-]*', r'chatgpt[\w.-]*',
         r'claude[-\s]?[3-9][\w.-]*', r'claude[-\s]?(?:opus|sonnet|haiku)[\w.-]*',
-        r'gemini[-\s]?[\w.]+',
-        r'deepseek[\w.-]*', r'ds-[\w.]+',
-        r'glm-[\w.]+', r'chatglm[\w.]*',
-        r'qwen[\w.-]*', r'qwq[\w.-]*',
-        r'llama[-\s]?[\w.]+',
-        r'midjourney', r'stable[-\s]?diffusion', r'dalle[-\s]?[\w.]*',
+        r'gemini[-\s]?[\w.]+', r'deepseek[\w.-]*', r'ds-[\w.]+',
+        r'glm-[\w.]+', r'qwen[\w.-]*', r'llama[-\s]?[\w.]+',
+        r'midjourney', r'dalle[-\s]?[\w.]*',
     ]
     for pattern in model_patterns:
         matches = re.findall(pattern, text, re.IGNORECASE)
@@ -155,37 +142,11 @@ def extract_models(text):
     return models[:10]
 
 
-def fetch_topic_detail(url):
-    """获取帖子详情"""
-    try:
-        from playwright.sync_api import sync_playwright
-    except ImportError:
-        return None
-
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page()
-
-        try:
-            page.goto(url, timeout=30000, wait_until="networkidle")
-            page.wait_for_timeout(3000)
-
-            content = page.content()
-
-            # 提取帖子文本内容
-            text = page.evaluate("""
-                () => {
-                    const posts = document.querySelectorAll('.cooked, .post-area');
-                    return Array.from(posts).map(p => p.textContent).join('\\n');
-                }
-            """)
-
-            browser.close()
-            return text
-        except Exception as e:
-            print(f"    获取详情失败: {e}")
-            browser.close()
-            return None
+def extract_linuxdo_link(text):
+    """从文本中提取 linux.do 链接"""
+    pattern = r'https://linux\.do/t/topic/\d+'
+    matches = re.findall(pattern, text)
+    return matches[0] if matches else None
 
 
 def load_existing_data():
@@ -211,44 +172,41 @@ def generate_readme(data):
     wools = data.get("wools", [])
     wools_sorted = sorted(wools, key=lambda x: x.get("created_at", "") or "", reverse=True)
 
-    readme = """# 🐑 Linux.do 羊毛监控
+    readme = f"""# 🐑 Linux.do 羊毛监控
 
-自动监控 [Linux.do 福利羊毛分类](https://linux.do/c/welfare/36) 的帖子，提取 API Key、模型、URL 等关键信息。
+自动监控 Linux.do 福利羊毛相关帖子，提取 API Key、模型、URL 等关键信息。
 
 **更新频率**: 每 30 分钟自动更新一次
 
-**最后更新**: {last_update}
+**最后更新**: {(data.get("last_update") or "N/A")[:19].replace("T", " ")}
 
-**统计**: 共收录 **{total}** 条羊毛信息
+**统计**: 共收录 **{len(wools)}** 条羊毛信息
 
 ---
 
 ## 📋 羊毛列表
 
-| # | 标题 | 模型 | 作者 | 浏览 | 点赞 | 时间 |
-|---|------|------|------|------|------|------|
-""".format(
-        last_update=(data.get("last_update") or "N/A")[:19].replace("T", " "),
-        total=len(wools),
-    )
+| # | 标题 | 模型 | 浏览 | 点赞 | 时间 |
+|---|------|------|------|------|------|
+"""
 
     for i, w in enumerate(wools_sorted[:100], 1):
-        title = w.get("title", "")[:40]
-        if len(w.get("title", "")) > 40:
+        title = w.get("title", "")[:45]
+        if len(w.get("title", "")) > 45:
             title += "..."
-        title_link = f"[{title}]({w.get('url', '')})"
+        url = w.get("url", "")
+        title_link = f"[{title}]({url})" if url else title
 
         models = w.get("models", [])
         models_str = ", ".join(models[:3]) if models else "-"
         if len(models) > 3:
             models_str += f" (+{len(models)-3})"
 
-        author = w.get("author", "-") or "-"
         views = w.get("views", 0)
         likes = w.get("likes", 0)
         created = w.get("created_at", "")[:10]
 
-        readme += f"| {i} | {title_link} | {models_str} | @{author} | {views} | {likes} | {created} |\n"
+        readme += f"| {i} | {title_link} | {models_str} | {views} | {likes} | {created} |\n"
 
     readme += """
 ---
@@ -262,8 +220,9 @@ def generate_readme(data):
 
     for i, w in enumerate(wools_sorted[:50], 1):
         readme += f"### {i}. {w.get('title', '')}\n\n"
-        readme += f"- **链接**: {w.get('url', '')}\n"
-        readme += f"- **作者**: @{w.get('author', '-')} | **时间**: {w.get('created_at', '')[:10]}\n"
+        if w.get("url"):
+            readme += f"- **链接**: {w.get('url', '')}\n"
+        readme += f"- **时间**: {w.get('created_at', '')[:10]}\n"
         readme += f"- **浏览**: {w.get('views', 0)} | **点赞**: {w.get('likes', 0)}\n"
 
         if w.get("models"):
@@ -284,7 +243,8 @@ def generate_readme(data):
                 readme += f"  - `{masked}`\n"
 
         if w.get("description"):
-            readme += f"- **说明**: {w.get('description', '')[:150]}\n"
+            desc = w.get('description', '')[:200]
+            readme += f"- **说明**: {desc}\n"
 
         readme += "\n"
 
@@ -295,8 +255,8 @@ def generate_readme(data):
 ## ⚙️ 工作原理
 
 1. 每 30 分钟通过 GitHub Actions 自动运行
-2. 使用 Playwright 绕过 Cloudflare 保护
-3. 从帖子内容中提取:
+2. 从 Telegram 频道获取最新羊毛信息
+3. 从内容中提取:
    - 📎 URL 链接
    - 🔑 API Key (自动部分隐藏)
    - 🤖 模型名称 (GPT, Claude, Gemini 等)
@@ -308,7 +268,7 @@ def generate_readme(data):
 ## 📊 数据来源
 
 - **论坛**: [Linux.do](https://linux.do)
-- **分类**: [福利羊毛](https://linux.do/c/welfare/36)
+- **Telegram**: [@linux_do_channel](https://t.me/linux_do_channel)
 
 ---
 
@@ -318,8 +278,7 @@ def generate_readme(data):
 
 ---
 
-*Last updated: {last_update}*
-""".format(last_update=data.get("last_update", "N/A"))
+*Last updated: """ + (data.get("last_update") or "N/A") + "*"
 
     with open(README_PATH, 'w', encoding='utf-8') as f:
         f.write(readme)
@@ -327,52 +286,54 @@ def generate_readme(data):
 
 def main():
     print("=" * 50)
-    print("🐑 Linux.do 羊毛监控 (Playwright)")
+    print("🐑 Linux.do 羊毛监控")
     print("=" * 50)
 
     # 加载已有数据
     data = load_existing_data()
-    existing_urls = {w.get("url") for w in data.get("wools", [])}
-    print(f"已有数据: {len(existing_urls)} 条")
+    existing_texts = {w.get("description", "")[:100] for w in data.get("wools", [])}
+    print(f"已有数据: {len(existing_texts)} 条\n")
 
-    # 获取帖子列表
-    topics = fetch_with_playwright()
-    print(f"\n共获取 {len(topics)} 个帖子")
+    # 获取消息
+    messages = fetch_telegram_messages()
+    print(f"\n共获取 {len(messages)} 条消息")
 
     new_count = 0
-    for topic in topics:
-        url = topic.get("url", "")
-        if url in existing_urls:
-            print(f"  跳过已存在: {topic.get('title', '')[:30]}...")
+    for msg in messages:
+        text = msg.get("text", "")
+        text_hash = text[:100]
+
+        if text_hash in existing_texts:
             continue
 
-        print(f"  + {topic.get('title', '')[:40]}...")
+        # 检查是否是羊毛相关
+        wool_keywords = ['api', 'key', '模型', '免费', '羊毛', '福利', 'gpt', 'claude', 'gemini', 'deepseek']
+        if not any(kw in text.lower() for kw in wool_keywords):
+            continue
 
-        # 获取详情提取更多信息
-        detail_text = fetch_topic_detail(url)
-
+        # 提取信息
         info = {
-            "title": topic.get("title", ""),
-            "url": url,
-            "author": topic.get("author", ""),
-            "views": topic.get("views", 0),
-            "likes": topic.get("likes", 0),
-            "created_at": topic.get("activity", ""),
-            "models": [],
-            "urls": [],
-            "keys": [],
-            "description": "",
+            "title": text[:50].replace('\n', ' '),
+            "url": extract_linuxdo_link(text) or "",
+            "models": extract_models(text),
+            "urls": extract_urls(text),
+            "keys": extract_keys(text),
+            "description": text[:300],
+            "views": 0,
+            "likes": 0,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "source": "telegram",
         }
 
-        if detail_text:
-            info["models"] = extract_models(detail_text)
-            info["urls"] = extract_urls(detail_text)
-            info["keys"] = extract_keys(detail_text)
-            info["description"] = detail_text[:200].strip()
-
-        data["wools"].append(info)
-        existing_urls.add(url)
-        new_count += 1
+        if info["title"]:
+            data["wools"].append(info)
+            existing_texts.add(text_hash)
+            new_count += 1
+            print(f"  + {info['title'][:40]}...")
+            if info["models"]:
+                print(f"    模型: {info['models'][:3]}")
+            if info["keys"]:
+                print(f"    Keys: {len(info['keys'])} 个")
 
     # 保存数据
     data["total_fetched"] = data.get("total_fetched", 0) + new_count
