@@ -36,15 +36,32 @@ TIMEOUT = 10  # 请求超时秒数
 
 def fetch_category_topics(page=0):
     """获取福利羊毛分类的帖子列表"""
-    url = f"{BASE_URL}/c/welfare/{CATEGORY_ID}.json"
-    params = {"page": page}
-    try:
-        resp = requests.get(url, headers=HEADERS, params=params, timeout=TIMEOUT)
-        resp.raise_for_status()
-        return resp.json()
-    except Exception as e:
-        print(f"获取分类帖子失败: {e}")
-        return None
+    # 尝试多种 API 端点格式
+    endpoints = [
+        f"{BASE_URL}/c/{CATEGORY_ID}.json?page={page}",
+        f"{BASE_URL}/c/welfare/{CATEGORY_ID}.json?page={page}",
+        f"{BASE_URL}/c/welfare.json?page={page}",
+    ]
+
+    for url in endpoints:
+        try:
+            print(f"  尝试: {url}")
+            resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
+            print(f"  状态码: {resp.status_code}")
+            if resp.status_code == 200:
+                data = resp.json()
+                print(f"  响应键: {list(data.keys())}")
+                return data
+            elif resp.status_code == 404:
+                continue
+            else:
+                print(f"  响应: {resp.text[:200]}")
+        except Exception as e:
+            print(f"  请求失败: {e}")
+            continue
+
+    print("所有端点都失败")
+    return None
 
 
 def fetch_topic_detail(topic_id):
