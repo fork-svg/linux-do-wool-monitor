@@ -2,9 +2,8 @@ name: Update Wool Data
 
 on:
   schedule:
-    # 每30分钟运行一次
-    - cron: '*/30 * * * *'
-  workflow_dispatch:  # 手动触发
+    - cron: '0,30 * * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -25,12 +24,15 @@ jobs:
         run: pip install requests -q
 
       - name: Fetch wool data
-        run: python fetch_wool.py
+        run: |
+          python fetch_wool.py
+          echo "Data file:"
+          cat data/wools.json | head -100
 
       - name: Commit and push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add data/ README.md
-          git diff --quiet --cached || git commit -m "🐑 Auto update: $(date '+%Y-%m-%d %H:%M:%S')"
+          git diff --quiet --cached || git commit -m "Auto update wool data"
           git push
