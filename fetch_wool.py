@@ -1,89 +1,114 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Linux.do 羊毛监控 - 自动抓取福利羊毛分类的帖子
-提取 URL、Key、Model、说明等关键信息
+Linux.do 羊毛监控 - 使用 Playwright 绕过 Cloudflare
 """
 
 import json
 import os
 import re
 import sys
-import time
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from pathlib import Path
-
-try:
-    import requests
-except ImportError:
-    print("Installing requests...")
-    import subprocess
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "requests", "-q"])
-    import requests
 
 # 配置
 BASE_URL = "https://linux.do"
 CATEGORY_ID = 36  # 福利羊毛分类
 OUTPUT_DIR = Path("data")
 README_PATH = Path("README.md")
-HEADERS = {
-    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-    "Accept": "application/json",
-    "Accept-Language": "zh-CN,zh;q=0.9",
-}
-TIMEOUT = 10  # 请求超时秒数
 
 
-def fetch_category_topics(page=0):
-    """获取福利羊毛分类的帖子列表"""
-    # 尝试多种 API 端点格式
-    endpoints = [
-        f"{BASE_URL}/c/{CATEGORY_ID}.json?page={page}",
-        f"{BASE_URL}/c/welfare/{CATEGORY_ID}.json?page={page}",
-        f"{BASE_URL}/c/welfare.json?page={page}",
-    ]
-
-    for url in endpoints:
-        try:
-            print(f"  尝试: {url}")
-            resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-            print(f"  状态码: {resp.status_code}")
-            if resp.status_code == 200:
-                data = resp.json()
-                print(f"  响应键: {list(data.keys())}")
-                return data
-            elif resp.status_code == 404:
-                continue
-            else:
-                print(f"  响应: {resp.text[:200]}")
-        except Exception as e:
-            print(f"  请求失败: {e}")
-            continue
-
-    print("所有端点都失败")
-    return None
-
-
-def fetch_topic_detail(topic_id):
-    """获取单个帖子的详细内容"""
-    url = f"{BASE_URL}/t/topic/{topic_id}.json"
+def fetch_with_playwright():
+    """使用 Playwright 绕过 Cloudflare 获取数据"""
     try:
-        resp = requests.get(url, headers=HEADERS, timeout=TIMEOUT)
-        resp.raise_for_status()
-        return resp.json()
-    except Exception as e:
-        print(f"获取帖子 {topic_id} 详情失败: {e}")
-        return None
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        print("安装 playwright...")
+        import subprocess
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "playwright", "-q"])
+        subprocess.check_call([sys.executable, "-m", "playwright", "install", "chromium"])
+        from playwright.sync_api import sync_playwright
+
+    all_topics = []
+
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        context = browser.new_context(
+            user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        )
+        page = context.new_page()
+
+        # 访问分类页面
+        for page_num in range(3):
+            url = f"{BASE_URL}/c/welfare/{CATEGORY_ID}"
+            if page_num > 0:
+                url += f"?page={page_num}"
+
+            print(f"抓取第 {page_num + 1} 页: {url}")
+
+            try:
+                page.goto(url, timeout=30000, wait_until="networkidle")
+                page.wait_for_timeout(3000)  # 等待 Cloudflare 验证
+
+                # 检查是否通过 Cloudflare
+                title = page.title()
+                if "moment" in title.lower() or "challenge" in title.lower():
+                    print("  Cloudflare 验证中，等待...")
+                    page.wait_for_timeout(10000)
+
+                # 获取页面内容
+                content = page.content()
+
+                # 检查是否有帖子列表
+                if "topic-list" in content or "topic-list-item" in content:
+                    print("  ✅ 成功获取页面")
+
+                    # 使用 JavaScript 提取数据
+                    topics = page.evaluate("""
+                        () => {
+                            const items = document.querySelectorAll('.topic-list-item');
+                            const results = [];
+                            items.forEach(item => {
+                                const titleEl = item.querySelector('.title a, .main-link a');
+                                const authorEl = item.querySelector('.posters a:last-child');
+                                const viewsEl = item.querySelector('.views span');
+                                const likesEl = item.querySelector('.likes span');
+                                const activityEl = item.querySelector('.activity span');
+
+                                if (titleEl) {
+                                    results.push({
+                                        title: titleEl.textContent.trim(),
+                                        url: titleEl.href,
+                                        author: authorEl ? authorEl.textContent.trim() : '',
+                                        views: viewsEl ? parseInt(viewsEl.textContent.trim()) || 0 : 0,
+                                        likes: likesEl ? parseInt(likesEl.textContent.trim()) || 0 : 0,
+                                        activity: activityEl ? activityEl.textContent.trim() : '',
+                                    });
+                                }
+                            });
+                            return results;
+                        }
+                    """)
+
+                    print(f"  发现 {len(topics)} 个帖子")
+                    all_topics.extend(topics)
+                else:
+                    print(f"  ❌ 未找到帖子列表 (title: {title})")
+
+            except Exception as e:
+                print(f"  错误: {e}")
+
+        browser.close()
+
+    return all_topics
 
 
 def extract_urls(text):
     """从文本中提取 URL"""
     if not text:
         return []
-    # 匹配 http/https URL
     pattern = r'https?://[^\s<>"\')\]]+'
     urls = re.findall(pattern, text)
-    # 清理末尾的标点
     cleaned = []
     for u in urls:
         u = u.rstrip('.,;:!?')
@@ -97,123 +122,70 @@ def extract_keys(text):
     if not text:
         return []
     keys = []
-
-    # 匹配 sk- 开头的 key (OpenAI 格式)
     sk_pattern = r'sk-[a-zA-Z0-9_-]{20,}'
     keys.extend(re.findall(sk_pattern, text))
-
-    # 匹配 code: 或 key: 后面的内容
     code_pattern = r'(?:code|key|密钥|密码)[：:\s]*[`\s]*([a-zA-Z0-9_-]{16,})[`\s]*'
     for match in re.findall(code_pattern, text, re.IGNORECASE):
         if match not in keys:
             keys.append(match)
-
-    # 匹配代码块中的内容
-    codeblock_pattern = r'```(?:\w*\n)?([\s\S]*?)```'
-    for block in re.findall(codeblock_pattern, text):
-        for line in block.strip().split('\n'):
-            line = line.strip()
-            if line and len(line) > 10 and not line.startswith('#'):
-                if line not in keys:
-                    keys.append(line)
-
-    return keys[:5]  # 最多返回5个key
+    return keys[:5]
 
 
 def extract_models(text):
     """从文本中提取模型名称"""
     if not text:
         return []
-
     models = []
-
-    # 常见模型名称模式
     model_patterns = [
-        # OpenAI
         r'gpt-[34][\w.-]*', r'o[13][\w.-]*', r'chatgpt[\w.-]*',
-        # Claude
         r'claude[-\s]?[3-9][\w.-]*', r'claude[-\s]?(?:opus|sonnet|haiku)[\w.-]*',
-        # Gemini
         r'gemini[-\s]?[\w.]+',
-        # DeepSeek
         r'deepseek[\w.-]*', r'ds-[\w.]+',
-        # GLM
         r'glm-[\w.]+', r'chatglm[\w.]*',
-        # Qwen
         r'qwen[\w.-]*', r'qwq[\w.-]*',
-        # Llama
         r'llama[-\s]?[\w.]+',
-        # 其他
         r'midjourney', r'stable[-\s]?diffusion', r'dalle[-\s]?[\w.]*',
     ]
-
-    text_lower = text.lower()
     for pattern in model_patterns:
-        matches = re.findall(pattern, text_lower, re.IGNORECASE)
+        matches = re.findall(pattern, text, re.IGNORECASE)
         for m in matches:
             m_clean = m.strip()
             if m_clean and m_clean not in models:
                 models.append(m_clean)
+    return models[:10]
 
-    return models[:10]  # 最多返回10个模型
 
+def fetch_topic_detail(url):
+    """获取帖子详情"""
+    try:
+        from playwright.sync_api import sync_playwright
+    except ImportError:
+        return None
 
-def extract_info_from_topic(topic_data):
-    """从帖子数据中提取关键信息"""
-    info = {
-        "title": "",
-        "url": "",
-        "author": "",
-        "created_at": "",
-        "views": 0,
-        "likes": 0,
-        "replies": 0,
-        "tags": [],
-        "urls": [],
-        "keys": [],
-        "models": [],
-        "description": "",
-    }
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
 
-    if not topic_data:
-        return info
+        try:
+            page.goto(url, timeout=30000, wait_until="networkidle")
+            page.wait_for_timeout(3000)
 
-    info["title"] = topic_data.get("title", "")
-    info["url"] = f"{BASE_URL}/t/topic/{topic_data.get('id', '')}"
-    info["author"] = topic_data.get("poster_username", "") or topic_data.get("created_by", {}).get("username", "")
-    info["created_at"] = topic_data.get("created_at", "")
-    info["views"] = topic_data.get("views", 0)
-    info["likes"] = topic_data.get("like_count", 0)
-    info["replies"] = topic_data.get("posts_count", 1) - 1
-    info["tags"] = topic_data.get("tags", [])
+            content = page.content()
 
-    # 合并所有帖子内容的文本
-    all_text = info["title"] + " "
-    posts = topic_data.get("post_stream", {}).get("posts", [])
-    for post in posts[:5]:  # 只看前5楼
-        raw = post.get("raw", "") or post.get("cooked", "")
-        all_text += raw + " "
+            # 提取帖子文本内容
+            text = page.evaluate("""
+                () => {
+                    const posts = document.querySelectorAll('.cooked, .post-area');
+                    return Array.from(posts).map(p => p.textContent).join('\\n');
+                }
+            """)
 
-    # 清理 HTML 标签
-    all_text = re.sub(r'<[^>]+>', ' ', all_text)
-    all_text = re.sub(r'\[.*?\]', ' ', all_text)
-
-    info["urls"] = extract_urls(all_text)
-    info["keys"] = extract_keys(all_text)
-    info["models"] = extract_models(all_text)
-
-    # 提取说明（取前200字符）
-    desc_pattern = r'[#\s]*(?:说明|介绍|描述|详情|内容|活动|规则)[：:\s]*([\s\S]{10,300}?)(?:\n\n|\n#|$)'
-    desc_match = re.search(desc_pattern, all_text, re.IGNORECASE)
-    if desc_match:
-        info["description"] = desc_match.group(1).strip()[:200]
-    else:
-        # 取第一段的非标题内容
-        lines = [l.strip() for l in all_text.split('\n') if l.strip() and not l.startswith('#')]
-        if lines:
-            info["description"] = lines[0][:200] if len(lines[0]) > 20 else ' '.join(lines[:3])[:200]
-
-    return info
+            browser.close()
+            return text
+        except Exception as e:
+            print(f"    获取详情失败: {e}")
+            browser.close()
+            return None
 
 
 def load_existing_data():
@@ -237,9 +209,7 @@ def save_data(data):
 def generate_readme(data):
     """生成 README.md"""
     wools = data.get("wools", [])
-
-    # 按时间排序（新的在前）
-    wools_sorted = sorted(wools, key=lambda x: x.get("created_at", ""), reverse=True)
+    wools_sorted = sorted(wools, key=lambda x: x.get("created_at", "") or "", reverse=True)
 
     readme = """# 🐑 Linux.do 羊毛监控
 
@@ -258,11 +228,11 @@ def generate_readme(data):
 | # | 标题 | 模型 | 作者 | 浏览 | 点赞 | 时间 |
 |---|------|------|------|------|------|------|
 """.format(
-        last_update=data.get("last_update", "N/A")[:19].replace("T", " "),
+        last_update=(data.get("last_update") or "N/A")[:19].replace("T", " "),
         total=len(wools),
     )
 
-    for i, w in enumerate(wools_sorted[:100], 1):  # 最多显示100条
+    for i, w in enumerate(wools_sorted[:100], 1):
         title = w.get("title", "")[:40]
         if len(w.get("title", "")) > 40:
             title += "..."
@@ -290,14 +260,11 @@ def generate_readme(data):
 
 """
 
-    for i, w in enumerate(wools_sorted[:50], 1):  # 详情只显示前50条
+    for i, w in enumerate(wools_sorted[:50], 1):
         readme += f"### {i}. {w.get('title', '')}\n\n"
         readme += f"- **链接**: {w.get('url', '')}\n"
         readme += f"- **作者**: @{w.get('author', '-')} | **时间**: {w.get('created_at', '')[:10]}\n"
-        readme += f"- **浏览**: {w.get('views', 0)} | **点赞**: {w.get('likes', 0)} | **回复**: {w.get('replies', 0)}\n"
-
-        if w.get("tags"):
-            readme += f"- **标签**: {', '.join(w.get('tags', []))}\n"
+        readme += f"- **浏览**: {w.get('views', 0)} | **点赞**: {w.get('likes', 0)}\n"
 
         if w.get("models"):
             readme += f"- **模型**: {', '.join(w.get('models', []))}\n"
@@ -310,7 +277,6 @@ def generate_readme(data):
         if w.get("keys"):
             readme += f"- **Key**:\n"
             for k in w.get("keys", [])[:3]:
-                # 部分隐藏 key
                 if len(k) > 10:
                     masked = k[:6] + "****" + k[-4:]
                 else:
@@ -329,7 +295,7 @@ def generate_readme(data):
 ## ⚙️ 工作原理
 
 1. 每 30 分钟通过 GitHub Actions 自动运行
-2. 抓取 Linux.do 福利羊毛分类的最新帖子
+2. 使用 Playwright 绕过 Cloudflare 保护
 3. 从帖子内容中提取:
    - 📎 URL 链接
    - 🔑 API Key (自动部分隐藏)
@@ -343,13 +309,12 @@ def generate_readme(data):
 
 - **论坛**: [Linux.do](https://linux.do)
 - **分类**: [福利羊毛](https://linux.do/c/welfare/36)
-- **API**: Discourse JSON API
 
 ---
 
 ## ⚠️ 免责声明
 
-本项目仅供信息聚合和學習交流使用。使用任何 API Key 前请确认其合法性和使用条款。
+本项目仅供信息聚合和学习交流使用。使用任何 API Key 前请确认其合法性和使用条款。
 
 ---
 
@@ -362,54 +327,52 @@ def generate_readme(data):
 
 def main():
     print("=" * 50)
-    print("🐑 Linux.do 羊毛监控")
+    print("🐑 Linux.do 羊毛监控 (Playwright)")
     print("=" * 50)
 
     # 加载已有数据
     data = load_existing_data()
-    existing_ids = {w.get("topic_id") for w in data.get("wools", [])}
-    print(f"已有数据: {len(existing_ids)} 条")
+    existing_urls = {w.get("url") for w in data.get("wools", [])}
+    print(f"已有数据: {len(existing_urls)} 条")
+
+    # 获取帖子列表
+    topics = fetch_with_playwright()
+    print(f"\n共获取 {len(topics)} 个帖子")
 
     new_count = 0
-    # 抓取前3页帖子
-    for page in range(3):
-        print(f"\n抓取第 {page + 1} 页...")
-        topics_data = fetch_category_topics(page)
-
-        if not topics_data or "topic_list" not in topics_data:
-            print(f"第 {page + 1} 页获取失败，跳过")
+    for topic in topics:
+        url = topic.get("url", "")
+        if url in existing_urls:
+            print(f"  跳过已存在: {topic.get('title', '')[:30]}...")
             continue
 
-        topics = topics_data.get("topic_list", {}).get("topics", [])
-        print(f"  发现 {len(topics)} 个帖子")
+        print(f"  + {topic.get('title', '')[:40]}...")
 
-        for topic in topics:
-            topic_id = topic.get("id")
-            if topic_id in existing_ids:
-                print(f"  - 跳过已存在: {topic.get('title', '')[:30]}...")
-                continue
+        # 获取详情提取更多信息
+        detail_text = fetch_topic_detail(url)
 
-            print(f"  + 获取详情: {topic.get('title', '')[:30]}...")
-            detail = fetch_topic_detail(topic_id)
+        info = {
+            "title": topic.get("title", ""),
+            "url": url,
+            "author": topic.get("author", ""),
+            "views": topic.get("views", 0),
+            "likes": topic.get("likes", 0),
+            "created_at": topic.get("activity", ""),
+            "models": [],
+            "urls": [],
+            "keys": [],
+            "description": "",
+        }
 
-            if detail:
-                info = extract_info_from_topic(detail)
-                info["topic_id"] = topic_id
-                data["wools"].append(info)
-                existing_ids.add(topic_id)
-                new_count += 1
+        if detail_text:
+            info["models"] = extract_models(detail_text)
+            info["urls"] = extract_urls(detail_text)
+            info["keys"] = extract_keys(detail_text)
+            info["description"] = detail_text[:200].strip()
 
-                # 显示提取结果
-                if info["models"]:
-                    print(f"    模型: {', '.join(info['models'][:3])}")
-                if info["urls"]:
-                    print(f"    URL: {len(info['urls'])} 个")
-                if info["keys"]:
-                    print(f"    Key: {len(info['keys'])} 个")
-
-                time.sleep(0.5)  # 避免请求过快
-
-        time.sleep(1)  # 页间延迟
+        data["wools"].append(info)
+        existing_urls.add(url)
+        new_count += 1
 
     # 保存数据
     data["total_fetched"] = data.get("total_fetched", 0) + new_count
@@ -418,7 +381,7 @@ def main():
 
     # 生成 README
     generate_readme(data)
-    print(f"✅ README.md 已更新")
+    print("✅ README.md 已更新")
 
 
 if __name__ == "__main__":
