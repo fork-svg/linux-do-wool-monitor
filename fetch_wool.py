@@ -43,34 +43,34 @@ def fetch_telegram_messages():
 
     messages = []
 
-    # 解析消息
-    # Telegram 预览页面的消息结构
-    msg_pattern = r'<div class="tgme_widget_message_text[^>]*>([^<]*(?:<[^>]+>[^<]*)*)</div>'
+    # 解析消息 - 使用更宽松的模式
+    msg_pattern = r'<div class="tgme_widget_message_text[^>]*>(.*?)</div>'
     for match in re.finditer(msg_pattern, html, re.DOTALL):
         content = match.group(1)
         # 清理 HTML 标签
         text = re.sub(r'<[^>]+>', ' ', content)
-        text = text.strip()
-        if text and len(text) > 20:
+        text = re.sub(r'\s+', ' ', text).strip()
+        if text and len(text) > 10:
             messages.append({"text": text, "source": "telegram"})
 
-    # 尝试另一种模式
+    # 如果上面的模式没匹配到，尝试整个消息块
     if not messages:
-        msg_pattern2 = r'class="tgme_widget_message_text[^"]*"[^>]*>(.*?)</div>'
-        for match in re.finditer(msg_pattern2, html, re.DOTALL):
+        # 尝试匹配整个消息块
+        block_pattern = r'data-post="[^"]+"[^>]*>(.*?)</div>\s*(?:</div>)?\s*(?:</div>)?'
+        for match in re.finditer(block_pattern, html, re.DOTALL):
             content = match.group(1)
-            text = re.sub(r'<[^>]+>', ' ', content).strip()
+            text = re.sub(r'<[^>]+>', ' ', content)
+            text = re.sub(r'\s+', ' ', text).strip()
             if text and len(text) > 20:
                 messages.append({"text": text, "source": "telegram"})
 
-    # 如果还是空，尝试更宽松的匹配
+    # 尝试提取所有文本内容
     if not messages:
         # 提取所有看起来像帖子的内容
-        post_blocks = re.findall(r'data-post="[^"]+">(.*?)</div>\s*</div>\s*</div>', html, re.DOTALL)
-        for block in post_blocks:
-            text = re.sub(r'<[^>]+>', ' ', block).strip()
-            text = re.sub(r'\s+', ' ', text)
-            if len(text) > 50 and ('key' in text.lower() or 'api' in text.lower() or '模型' in text or '免费' in text):
+        all_text = re.findall(r'>([^<]{20,})<', html)
+        for text in all_text:
+            text = text.strip()
+            if len(text) > 30 and any(kw in text.lower() for kw in ['api', 'key', '模型', '免费', '羊毛', 'gpt', 'claude']):
                 messages.append({"text": text, "source": "telegram"})
 
     print(f"  发现 {len(messages)} 条消息")
@@ -126,18 +126,21 @@ def extract_models(text):
     if not text:
         return []
     models = []
+    # 更精确的模式
     model_patterns = [
-        r'gpt-[34][\w.-]*', r'o[13][\w.-]*', r'chatgpt[\w.-]*',
-        r'claude[-\s]?[3-9][\w.-]*', r'claude[-\s]?(?:opus|sonnet|haiku)[\w.-]*',
-        r'gemini[-\s]?[\w.]+', r'deepseek[\w.-]*', r'ds-[\w.]+',
-        r'glm-[\w.]+', r'qwen[\w.-]*', r'llama[-\s]?[\w.]+',
-        r'midjourney', r'dalle[-\s]?[\w.]*',
+        r'\bgpt-4[o]?\b', r'\bgpt-4[-\s]?turbo\b', r'\bgpt-4\b',
+        r'\bgpt-3\.?5\b', r'\bo1[-\s]?(?:preview|mini)?\b', r'\bo3[-\s]?(?:mini)?\b',
+        r'\bclaude[-\s]?(?:3\.5|3|4)?[-\s]?(?:opus|sonnet|haiku)?\b',
+        r'\bgemini[-\s]?(?:1\.5|2\.0|pro|flash|ultra)?\b',
+        r'\bdeepseek[-\s]?(?:v3|r1|coder|chat)?\b',
+        r'\bglm[-\s]?4\b', r'\bqwen[-\s]?(?:max|plus|turbo)?\b',
+        r'\bllama[-\s]?3\.?1?\b', r'\bmidjourney\b',
     ]
     for pattern in model_patterns:
         matches = re.findall(pattern, text, re.IGNORECASE)
         for m in matches:
             m_clean = m.strip()
-            if m_clean and m_clean not in models:
+            if m_clean and m_clean not in models and len(m_clean) < 30:
                 models.append(m_clean)
     return models[:10]
 
