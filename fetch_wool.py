@@ -309,9 +309,16 @@ def main():
         if text_hash in existing_texts:
             continue
 
-        # 检查是否是羊毛相关
-        wool_keywords = ['api', 'key', '模型', '免费', '羊毛', '福利', 'gpt', 'claude', 'gemini', 'deepseek']
-        if not any(kw in text.lower() for kw in wool_keywords):
+        # 必须包含明确的福利关键词
+        wool_must_have = ['免费', '公益', '福利', '白嫖', '羊毛', '送', '赠送', '分享key', '免费key', '白送']
+        has_wool_keyword = any(kw in text.lower() for kw in wool_must_have)
+
+        if not has_wool_keyword:
+            continue
+
+        # 排除非福利内容
+        exclude_patterns = ['求助', '怎么办', '请问', '问题', 'bug', '报错', '出错了']
+        if any(p in text.lower() for p in exclude_patterns):
             continue
 
         # 提取信息
