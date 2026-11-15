@@ -300,6 +300,15 @@ def get_clean_title(text):
     return text[:50].replace('\n', ' ')
 
 
+def get_dedup_key(title):
+    """生成去重用的key"""
+    # 去掉数字、日期等变量内容，只保留核心关键词
+    key = re.sub(r'\d+', '', title)  # 去掉数字
+    key = re.sub(r'[（(].*?[）)]', '', key)  # 去掉括号内容
+    key = re.sub(r'\s+', '', key)  # 去掉空格
+    return key[:20]  # 取前20字符作为去重key
+
+
 def main():
     print("=" * 50)
     print("🐑 Linux.do 羊毛监控")
@@ -307,12 +316,11 @@ def main():
 
     # 加载已有数据
     data = load_existing_data()
-    existing_titles = set()
+    existing_dedup_keys = set()
     for w in data.get("wools", []):
-        # 用标题去重
-        title = w.get("title", "")[:30]
-        existing_titles.add(title)
-    print(f"已有数据: {len(existing_titles)} 条\n")
+        title = w.get("title", "")
+        existing_dedup_keys.add(get_dedup_key(title))
+    print(f"已有数据: {len(existing_dedup_keys)} 条\n")
 
     # 获取消息
     messages = fetch_telegram_messages()
@@ -322,9 +330,9 @@ def main():
     for msg in messages:
         text = msg.get("text", "")
         title = get_clean_title(text)
-        title_key = title[:30]
+        dedup_key = get_dedup_key(title)
 
-        if title_key in existing_titles:
+        if dedup_key in existing_dedup_keys:
             continue
 
         # 必须包含明确的福利关键词
@@ -355,7 +363,7 @@ def main():
 
         if info["title"]:
             data["wools"].append(info)
-            existing_titles.add(title_key)
+            existing_dedup_keys.add(dedup_key)
             new_count += 1
             print(f"  + {info['title'][:50]}")
             if info["models"]:
