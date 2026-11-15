@@ -287,6 +287,19 @@ def generate_readme(data):
         f.write(readme)
 
 
+def get_clean_title(text):
+    """提取干净的标题"""
+    # 去掉 "@xxx 在 xxx 中发帖" 前缀
+    match = re.search(r'在\s+(.+?)\s+中发帖', text)
+    if match:
+        title = match.group(1)
+        # 截取第一个句号或换行
+        title = re.split(r'[。\n]', title)[0]
+        return title[:50]
+    # 否则取前50字符
+    return text[:50].replace('\n', ' ')
+
+
 def main():
     print("=" * 50)
     print("🐑 Linux.do 羊毛监控")
@@ -294,8 +307,12 @@ def main():
 
     # 加载已有数据
     data = load_existing_data()
-    existing_texts = {w.get("description", "")[:100] for w in data.get("wools", [])}
-    print(f"已有数据: {len(existing_texts)} 条\n")
+    existing_titles = set()
+    for w in data.get("wools", []):
+        # 用标题去重
+        title = w.get("title", "")[:30]
+        existing_titles.add(title)
+    print(f"已有数据: {len(existing_titles)} 条\n")
 
     # 获取消息
     messages = fetch_telegram_messages()
@@ -304,9 +321,10 @@ def main():
     new_count = 0
     for msg in messages:
         text = msg.get("text", "")
-        text_hash = text[:100]
+        title = get_clean_title(text)
+        title_key = title[:30]
 
-        if text_hash in existing_texts:
+        if title_key in existing_titles:
             continue
 
         # 必须包含明确的福利关键词
@@ -323,7 +341,7 @@ def main():
 
         # 提取信息
         info = {
-            "title": text[:50].replace('\n', ' '),
+            "title": title,
             "url": extract_linuxdo_link(text) or "",
             "models": extract_models(text),
             "urls": extract_urls(text),
@@ -337,13 +355,15 @@ def main():
 
         if info["title"]:
             data["wools"].append(info)
-            existing_texts.add(text_hash)
+            existing_titles.add(title_key)
             new_count += 1
-            print(f"  + {info['title'][:40]}...")
+            print(f"  + {info['title'][:50]}")
             if info["models"]:
                 print(f"    模型: {info['models'][:3]}")
             if info["keys"]:
                 print(f"    Keys: {len(info['keys'])} 个")
+            if info["url"]:
+                print(f"    URL: {info['url']}")
 
     # 保存数据
     data["total_fetched"] = data.get("total_fetched", 0) + new_count
