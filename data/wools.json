@@ -1,1 +1,54 @@
-{"wools": [], "last_update": null, "total_fetched": 0}
+{
+  "wools": [
+    {
+      "title": "@gubhost 在 serv00提示vpn封禁解除教程 中发帖 之前注册serv00被封了，提示使",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@gubhost 在 serv00提示vpn封禁解除教程 中发帖 之前注册serv00被封了，提示使用vpn，给我看懵了，我只在里面部署了alist和cloudflared没有搞vpn怎么会被封？ 后面有人说官方禁止alist，也有人说是cloudflare被识别出来了。在一番查阅之下找到了一个办法可以解封，就是发他的论坛 Serv00.com » 革命性免费托管 1.要先注册个账号 2.在 解封账户 - Serv00.com » 革命性免费托管这个板块下发帖 3.发帖格式 Dear Serv00 Team, I am writing to sincerely apologize for th",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T04:46:49.616896+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "小刚同学 ( @xiaogang829 ) 在 B站送大会员（2026.11.15 12:00- 2",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "小刚同学 ( @xiaogang829 ) 在 B站送大会员（2026.11.15 12:00- 2026.11.16 12:00） 中发帖 步骤如下： [image] 正在上传：image.png… 正在上传：image.png(1)…",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T04:46:49.617017+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "小刚同学 ( @xiaogang829 ) 在 B站送7天大会员（2026.11.15 12:00-",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "小刚同学 ( @xiaogang829 ) 在 B站送7天大会员（2026.11.15 12:00- 2026.11.16 12:00） 中发帖 步骤如下： [image] [image] [image]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T04:46:49.617076+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "大肥鱼 ( @susrcose ) 在 加入l站这么多年从没发过福利 中发帖 加入l站这么多年从没发",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "大肥鱼 ( @susrcose ) 在 加入l站这么多年从没发过福利 中发帖 加入l站这么多年从没发过福利，这样吧今天我就给所有佬友送B站大会员，中午十二点上B站搜索“大会员”即可直接到账，感谢佬友陪伴",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T04:46:49.617183+00:00",
+      "source": "telegram"
+    }
+  ],
+  "last_update": "2026-11-15T04:46:49.617289+00:00",
+  "total_fetched": 4
+}
