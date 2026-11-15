@@ -238,8 +238,112 @@
       "likes": 0,
       "created_at": "2026-11-14T21:04:59.973586+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "@Lee_Crush 在 Google Play订阅Claude退款失败 中发帖 通过Google ",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@Lee_Crush 在 Google Play订阅Claude退款失败 中发帖 通过Google play订阅了Claude 然后弹了KYC秒封 申请退款被拒 是申请的方式不对吗？ 我先点的report aproblem [IMG_0935] 选择的didnt reciev item [IMG_0936] 收到的反馈是不符合 [IMG_0934]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T01:11:02.038157+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "xms2008 ( @yybin ) 在 还是没忍住开了ultra 5x 中发帖 [IMG_2402",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "xms2008 ( @yybin ) 在 还是没忍住开了ultra 5x 中发帖 [IMG_2402] gpt等到额度合并后就不续了",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T01:11:02.038219+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "GotoSky 在 恭喜BLG夺冠，LOLM手游可免费领取5个英雄 中发帖 [febb1b3b46c",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "GotoSky 在 恭喜BLG夺冠，LOLM手游可免费领取5个英雄 中发帖 [febb1b3b46c6cdfb55fd9f52ddd8095b] 前往【英雄联盟客户端-2026全球总决赛活动-直播现场】或前往【英雄联盟手游客户端-社区-福利】输入口令12.20前可输入1次，必得自选英雄&#33; 夺冠口令码：我们是冠军",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T01:11:02.038277+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "skywalker512 在 有人能用 Vertex (agent-platform) 请求 Gem",
+      "url": "",
+      "models": [
+        "Gemini-"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "skywalker512 在 有人能用 Vertex (agent-platform) 请求 Gemini-4-carbon 吗？ 中发帖 在 Agent Platform Studio (GCP里面的那个Web版本) 似乎能对话一两次。 但是用 AGY_ADC_AUTH=true open -a &quot;Antigravity&quot;&#092; AGY_ADC_AUTH=true agy 的方式打开，或者 magpie 之类的方式代理 基本上一两个请求之后，就会弹出。(然后再返回 GCP 的 Web 也是一样的报错) Access requires an eligible paid",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T01:11:02.038376+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "@silaschen 在 ［已解封］Claudepro 中发帖 开了近一个月的 Claude，11.",
+      "url": "",
+      "models": [
+        "Claude"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "@silaschen 在 ［已解封］Claudepro 中发帖 开了近一个月的 Claude，11.14 突然弹 kyc，护照过秒封（感觉是用了 Fable 导致的），申诉完十几个小时解封； 这次封号潮解封率好像挺高的，下面附账号基本情况和申诉参考 账户情况： 支付：bybit 套paypal 套 ios内购（俄勒冈选成了俄亥俄，交了2刀左右税） ip是vps自建的，双ips，: 🪜 装在路由器上，电脑不开 🪜 ，直接连接路由器 账号是2年谷歌账号，claude建号是今年五月份，发了几句话，后面闲置到九月份，稍微多用了点。 free账号时主要在手机端，虚拟机使用过 目前只在mac上用只连路由器",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T01:11:02.038516+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "皮蛋 (@aee) 在 BLG夺冠！B站免费送所有人大会员！ 中发帖 112点哔站搜搜 大会员领取 ",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "皮蛋 (@aee) 在 BLG夺冠！B站免费送所有人大会员！ 中发帖 112点哔站搜搜 大会员领取 [1000566487.jpg]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T01:11:02.038541+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "Handsonmac 在 个人智能体可以用来干什么 中发帖 类似grok bot,muse,dots",
+      "url": "",
+      "models": [
+        "claude"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "Handsonmac 在 个人智能体可以用来干什么 中发帖 类似grok bot,muse,dots这些他们跟我们平时用的codex,claude，workbuddy的最显著的区别是什么，第一次有了老年人不会用智能手机的落差感",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T01:11:02.038591+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "Detrital 在 Qwen Code 登录提示这个是什么意思 中发帖 [image] 看到 Qw",
+      "url": "",
+      "models": [
+        "Qwen"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "Detrital 在 Qwen Code 登录提示这个是什么意思 中发帖 [image] 看到 Qwen Code 貌似原来每天两千次免费回归了，想登录一下。结果选第一个 oauth 登录，就显示这个，这是我的问题吗？",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-15T01:11:02.038630+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-14T21:04:59.973652+00:00",
-  "total_fetched": 18
+  "last_update": "2026-11-15T01:11:02.038709+00:00",
+  "total_fetched": 26
 }
