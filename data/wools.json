@@ -282,8 +282,20 @@
       "likes": 0,
       "created_at": "2026-11-17T10:08:03.797984+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "下了莫大决心，发现用不了Antigravity",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "yflad 在 下了莫大决心，发现用不了Antigravity 中发帖 刚睡醒发现好大个羊毛，撸了UItra用不了Antigravity还有啥法子嘛 [image]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-17T19:16:12.784430+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-17T10:08:03.798109+00:00",
-  "total_fetched": 23
+  "last_update": "2026-11-17T19:16:12.784920+00:00",
+  "total_fetched": 24
 }
