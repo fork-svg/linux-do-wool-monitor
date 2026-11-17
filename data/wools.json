@@ -195,8 +195,35 @@
       "likes": 0,
       "created_at": "2026-11-16T17:53:22.596261+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "[ ArcaneAI 公益站] 更新新模型 GPT-6-Astra",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "GPT-6-Astra ( @ArcaneCloud ) 在 [ ArcaneAI 公益站] 更新新模型 GPT-6-Astra 中发帖 [ ArcaneAI 公益站] 更新新模型 GPT-6-Astra 欢迎各位佬友去体验",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-17T01:31:51.675567+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "今日几个薅羊毛的地方来了！",
+      "url": "",
+      "models": [
+        "deepseek-",
+        "deepseek"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "吴亦Fan？ ( @wuyinfan ) 在 今日几个薅羊毛的地方来了！ 中发帖 numes.ai FREE deepseek-v4.1-flash-uncensored-fp8 deepseek/deepseek-v4.1-flash runcrate.ai FREE 并发高 [image] bypassed.sh FREE 并发低 glm-5.3-flash-unlocked-free [image]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-17T01:31:51.675747+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-16T17:53:22.596477+00:00",
-  "total_fetched": 16
+  "last_update": "2026-11-17T01:31:51.675925+00:00",
+  "total_fetched": 18
 }
