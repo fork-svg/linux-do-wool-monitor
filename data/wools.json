@@ -404,8 +404,34 @@
       "likes": 0,
       "created_at": "2026-11-18T18:38:20.426266+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "【CodeRelay】已上线 GPT 6.2 系列模型 | GPT 高缓稳定不降智0.06倍率 | ",
+      "url": "",
+      "models": [
+        "Claude"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "@bale 在 【CodeRelay】已上线 GPT 6.2 系列模型 | GPT 高缓稳定不降智0.06倍率 | 纯血 Claude 1.5倍率 | 企业 Coding 首选 | 评论抽额度 中发帖 🎁 福利来了：共送 6 刀 评论留下您的ID 注册送3 刀 加群送3刀（进群留ID） 注册地址： QQ群地址： 点击链接加入群聊【CodeRelay-Ai-2】：QQ群",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-19T00:57:00.432022+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "以下犯上，免费号上Gemini 4了！",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "softwind ( @1441440441 ) 在 以下犯上，免费号上Gemini 4了！ 中发帖 Antigravity最新版，免费Pro版账号 [1000116545.jpg] [1000116544.png] 谷谷歌歌，以下犯上！",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-19T00:57:00.432168+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-18T18:38:20.426464+00:00",
-  "total_fetched": 33
+  "last_update": "2026-11-19T00:57:00.432406+00:00",
+  "total_fetched": 35
 }
