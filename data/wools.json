@@ -454,8 +454,20 @@
       "likes": 0,
       "created_at": "2026-11-19T08:29:19.590852+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "从Cursor回到GPT，犹如从跑车回到拖拉机",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@kourou 在 从Cursor回到GPT，犹如从跑车回到拖拉机 中发帖 之前白嫖了一个月 Grok Bot，发现可以使用 Cursor，开启新世界的大门 速度上直接起飞，与 GPT-6.2 Sol 相比，犹如法拉利比于拖拉机 个人感觉，在打杂方面基本没有差距，GPT仅在复杂任务时稍胜，但根本不能弥补它的慢 :tieba_001: [Screenshot_20261118170123] [Screenshot_20261118225054]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-19T17:35:26.010285+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-19T08:29:19.591014+00:00",
-  "total_fetched": 37
+  "last_update": "2026-11-19T17:35:26.010486+00:00",
+  "total_fetched": 38
 }
