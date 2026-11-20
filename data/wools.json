@@ -490,8 +490,32 @@
       "likes": 0,
       "created_at": "2026-11-20T00:16:04.484970+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "最后一张Claude的免费一周pro抽人送掉",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "小陈cc ( @guoyuchen166 ) 在 最后一张Claude的免费一周pro抽人送掉 中发帖 [image]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-20T07:37:19.957541+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "远程工具都收费了，好难啊...",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "zhl ( @zhlHong ) 在 远程工具都收费了，好难啊... 中发帖 最近UU收费了，虽然不是很贵，但是秉持L站无私奉献（白嫖）的精神，想知道，如果自己vibe一个这样的工具，需要什么条件。或者群内的大佬们有没有兴趣搞一个？小弟完全不懂这些什么通道，加密技术，但是小弟有token。所以如果哪个大佬有兴趣弄一个，我自愿帮忙端茶倒水打杂。",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-20T07:37:19.957620+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-20T00:16:04.485028+00:00",
-  "total_fetched": 40
+  "last_update": "2026-11-20T07:37:19.957722+00:00",
+  "total_fetched": 42
 }
