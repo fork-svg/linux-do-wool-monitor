@@ -514,8 +514,78 @@
       "likes": 0,
       "created_at": "2026-11-20T07:37:19.957620+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "Caffeine羊毛可以用fable5.1模型",
+      "url": "",
+      "models": [
+        "Claude Opus",
+        "Claude"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "qiuleaf 在 Caffeine羊毛可以用fable5.1模型 中发帖 突发！黑五优惠码来了，免费用Claude Fable 5.1 ⚡ 瑞士的Caffeine是一个开发网站和做应用的 AI 平台 使用黑五优惠码：BLACKFRIDAY 可获得Studio 1个月 免费模型：Claude Opus 5.5、Claude Fable 5.1、GPT-6 Astra、GPT-6 Sol 步骤：Google邮箱登录→左下角Use code→输入优惠码→验卡 URL：Your invite to Caffeine",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-20T16:40:19.951196+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "半夜福利，hub站GPT免费蹬",
+      "url": "",
+      "models": [],
+      "urls": [
+        "https://hub.linux.do"
+      ],
+      "keys": [],
+      "description": "@songlinmeng 在 半夜福利，hub站GPT免费蹬 中发帖 YWgtYjUyNjY1Y2Y0ZTgzYjMwOWZiZThkMGY5MmQ1MzcwNGQ5NzVjZDI4ZmUwY2NmZGYxY2JlM2NiMTdhNDk0YWM0Yg== 白天说好的今天001倍率hub站所获得的余额全部送给佬们用，现在兑现承诺，上面解码就行。 Base URL： 主域名(仅Web登录)：[https://hub.linux.do] 接的是这位佬的(推荐一下我放在HUB站的Astra，0.07x)",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-20T16:40:19.951363+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "免费号被claude封了，我是真的服了",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@Arxin 在 免费号被claude封了，我是真的服了。你们这些氪金的是咋撑过来的啊 #纯水 中发帖 哭了，最近的gemini用起来怪怪的，neon跑起任务来时不时就卡死不动弹。想起来好久没用A/的，用免费账号跑一点算点，结果一上线就被要求验证。半年的号啊，说没就没。说起来一直用中文，可能是今天的节点不干净？",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-20T16:40:19.951430+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "【富可敌国】 Leaflow 回归，每个用户送1亿Token，最高可以得到4亿Token！也有踢楼活",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@sudoNeko 在 【富可敌国】 Leaflow 回归，每个用户送1亿Token，最高可以得到4亿Token！也有踢楼活动！ 中发帖 ▶ E-API 与 Leaflow 的关系 好久不见 👋 佬朋友，也像新朋友们问好，我们是 Leaflow ，我们回来了 👋 [截屏2026-11-20 下午11.42.52] 还记得以前在 L 站分享过用 Leaflow 搭哪吒面板、跑容器的佬友，陪伴我们一起发掘 Leaflow v1 的功能，当时了Leaflow 非常热闹，那个帖子第一天就有1000多名踊跃的佬友入驻平台见证了我们的用户量爆发 一年之后，我们从重构平台到现在回来了，我们带着新的合作伙伴，",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-20T16:40:19.951723+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "免费 deepseek",
+      "url": "",
+      "models": [
+        "deepseek",
+        "Deepseek"
+      ],
+      "urls": [
+        "https://dash.packet.ai/serverless"
+      ],
+      "keys": [],
+      "description": "@chaochen 在 免费 deepseek 中发帖 https://dash.packet.ai/serverless 这个现在注册就可以免费 Deepseek。暂时还没发现，截止什么日期？ [53756.jpg]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-20T16:40:19.951806+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-20T07:37:19.957722+00:00",
-  "total_fetched": 42
+  "last_update": "2026-11-20T16:40:19.951866+00:00",
+  "total_fetched": 47
 }
