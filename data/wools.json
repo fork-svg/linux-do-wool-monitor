@@ -648,8 +648,20 @@
       "likes": 0,
       "created_at": "2026-11-22T07:14:03.783639+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "感觉carbon今晚速度太慢了，之前还只是首字比较慢，今晚直接慢穿地心",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "taylor ( @tayloroot ) 在 感觉carbon今晚速度太慢了，之前还只是首字比较慢，今晚直接慢穿地心 中发帖 咕咕嘎嘎是不是已经被薅秃噜皮了，我看站内的羊毛推特上到处飞 一直显示working，半天憋出一句话",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-22T15:31:59.169601+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-22T07:14:03.783732+00:00",
-  "total_fetched": 52
+  "last_update": "2026-11-22T15:31:59.169982+00:00",
+  "total_fetched": 53
 }
