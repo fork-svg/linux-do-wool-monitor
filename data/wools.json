@@ -696,8 +696,20 @@
       "likes": 0,
       "created_at": "2026-11-23T11:00:14.329679+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "这可能是我这种穷鬼学生SOTA模型token最自由的一个月了",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "凉宫春日 ( @AlayLm ) 在 这可能是我这种穷鬼学生SOTA模型token最自由的一个月了 中发帖 [25520.png] 半价GPT Plus​ ➕ 小米Gemini Pro​ ➕ 学生认证优惠Gemini Pro​ ➕ Devin Max羊毛 恐怕以后都没有这种机会了 😇",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-23T22:48:47.164395+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-23T11:00:14.329923+00:00",
-  "total_fetched": 56
+  "last_update": "2026-11-23T22:48:47.164523+00:00",
+  "total_fetched": 57
 }
