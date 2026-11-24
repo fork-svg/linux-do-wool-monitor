@@ -732,8 +732,44 @@
       "likes": 0,
       "created_at": "2026-11-24T06:43:24.360373+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "jio的免费pro及普号的反重力均上线gemini-4-hydrogen了",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "拾雨 ( @c519127 ) 在 jio的免费pro及普号的反重力均上线gemini-4-hydrogen了 中发帖 [Image_1795541833351_593]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-24T18:36:56.218816+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "在 2026 年 12 月 31 日之前，Business用户可以免费使用快速模式",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "CarlosZ21210 在 在 2026 年 12 月 31 日之前，Business用户可以免费使用快速模式 中发帖 [image] 不知道这个fast模式是仅Chat可用，还是Codex也可以用。 按理说再过一个星期 Chat 和 Codex 就合并了，应该是 Codex 也可以免费开快速模式。",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-24T18:36:56.219009+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "gpt Business， 5 个免费标准席位又开了吗？",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "不爱吃鱼 ( @ZHY1 ) 在 gpt Business， 5 个免费标准席位又开了吗？ 中发帖 凌晨突然我的plus给我弹这个横幅，gpt又来活动？ [image]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-24T18:36:56.219079+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-24T06:43:24.360474+00:00",
-  "total_fetched": 59
+  "last_update": "2026-11-24T18:36:56.219133+00:00",
+  "total_fetched": 62
 }
