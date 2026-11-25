@@ -840,8 +840,22 @@
       "likes": 0,
       "created_at": "2026-11-25T12:04:28.654978+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "gemini ultra 自动退款了",
+      "url": "",
+      "models": [
+        "gemini ultra"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "@zeoon 在 gemini ultra 自动退款了 中发帖 从 &lt;span class=&quot;hashtag-icon-placeholder&quot;&gt;&lt;/span&gt;福利羊毛&lt;/span&gt; 到 &lt;span class=&quot;hashtag-icon-placeholder&quot;&gt;&lt;/span&gt;搞七捻三&lt;/span&gt;",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-25T21:54:08.160413+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-25T12:04:28.655034+00:00",
-  "total_fetched": 68
+  "last_update": "2026-11-25T21:54:08.160789+00:00",
+  "total_fetched": 69
 }
