@@ -854,8 +854,20 @@
       "likes": 0,
       "created_at": "2026-11-25T21:54:08.160413+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "OpenAI 开始合并 ChatGPT 聊天 / 工作模式，重度用户可能更早触及限额",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@yhe 在 OpenAI 开始合并 ChatGPT 聊天 / 工作模式，重度用户可能更早触及限额 中发帖 [9082.png] [9083.jpg] 11 月 26 日消息，OpenAICodex&amp;ChatGPT 团队负责人蒂博 · 索蒂奥（注：Tibo）今天宣布，公司已开始向小部分 Pro 订阅用户推送 ChatGPT 聊天 / 工作模式合并。部分用户对此表示批评，担心此举可能会限制他们的使用额度。",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-26T03:55:34.884987+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-25T21:54:08.160789+00:00",
-  "total_fetched": 69
+  "last_update": "2026-11-26T03:55:34.885069+00:00",
+  "total_fetched": 70
 }
