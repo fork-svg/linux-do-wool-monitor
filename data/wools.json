@@ -942,8 +942,58 @@
       "likes": 0,
       "created_at": "2026-11-27T14:40:06.061986+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "谷歌的文字水平那么好，破案了全是xxn的功劳",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@Dakne 在 谷歌的文字水平那么好，破案了全是xxn的功劳 中发帖 玩airp的都爱用哈吉米，他们用中转站大部分是aistudio反代出来，aistudio每天有免费额度，但是代价是被谷歌训练，airp玩家天天给哈吉米投毒所以谷歌就练不出来模型。但是谷歌被喂文字所以文字水平就很好。 🤣",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-27T23:11:47.833169+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "深夜猛蹬 GLM 送的鸡蛋",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "@honlnk 在 深夜猛蹬 GLM 送的鸡蛋 中发帖 已经有段时间没有用过 GLM-5.3-flash 这个模型了，因为原来它是真的不好用，有 v1 套餐的我平时也看不上 GLM 送的那仨瓜俩字 平时就是用 GLM-5.3 跑 Goal 至于写文档，我另有他选，在这里暂且不聊这个话题 今天跑了几个雷霆大任务，我的额度用完了，每天半夜送的充值卡也都用完了 我突然想到，GLM-5.4 发布当前，一同发布的一个叫 GLM-fable 的模型，我当时也是跟风，用着两个模型分别画了一只鹈鹕，发现，这 fable 虽然名字和隔壁小螃蟹重名，但看效果，并非旗舰，如果只是看生成出来的效果，只能说平平无奇 但",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-27T23:11:47.833350+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "[ ArcaneAI ] 公益站开放了",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "GPT-6-Astra ( @ArcaneCloud ) 在 [ ArcaneAI ] 公益站开放了 中发帖 从 &lt;span class=&quot;hashtag-icon-placeholder&quot;&gt;&lt;/span&gt;福利羊毛, Lv2&lt;/span&gt; 到 &lt;span class=&quot;hashtag-icon-placeholder&quot;&gt;&lt;/span&gt;福利羊毛&lt;/span&gt;",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-27T23:11:47.833404+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "问下美区 gemini 免费一年pro 还没到期，想转日区 720 咋操作",
+      "url": "",
+      "models": [
+        "gemini"
+      ],
+      "urls": [],
+      "keys": [],
+      "description": "@salsal101 在 问下美区 gemini 免费一年pro 还没到期，想转日区 720 咋操作 中发帖 翻了一下还有个老号 是美区家庭组家长，直接在支付地址里面加个日区然后用原来的卡吗？ 需不需要退出家庭组先？ 现在 student 页面里面有 0 刀/年的免费 pro 和 8.99 刀一个月的",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-27T23:11:47.833451+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-27T14:40:06.062163+00:00",
-  "total_fetched": 76
+  "last_update": "2026-11-27T23:11:47.833515+00:00",
+  "total_fetched": 80
 }
