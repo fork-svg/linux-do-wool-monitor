@@ -914,8 +914,36 @@
       "likes": 0,
       "created_at": "2026-11-27T04:45:55.250636+00:00",
       "source": "telegram"
+    },
+    {
+      "title": "雪花公益 渠道公告",
+      "url": "",
+      "models": [
+        "deepseek-"
+      ],
+      "urls": [
+        "https://hub.linux.do"
+      ],
+      "keys": [],
+      "description": "迷人的uu ( @mrduu ) 在 雪花公益 渠道公告 中发帖 本站上新模型 tr/deepseek-v4.1-flash 稳定可用 首字较慢 10s左右 可前往 https://hub.linux.do 进行不限量体验 同时 站点内积分更换为按m/token 计费 未来会上新模型 请大家敬请期待",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-27T14:40:06.061799+00:00",
+      "source": "telegram"
+    },
+    {
+      "title": "电信新模型限时免费",
+      "url": "",
+      "models": [],
+      "urls": [],
+      "keys": [],
+      "description": "Armstrong 💪🏼 ( @wyf9661 ) 在 电信新模型限时免费 中发帖 [38130.jpg]",
+      "views": 0,
+      "likes": 0,
+      "created_at": "2026-11-27T14:40:06.061986+00:00",
+      "source": "telegram"
     }
   ],
-  "last_update": "2026-11-27T04:45:55.250959+00:00",
-  "total_fetched": 74
+  "last_update": "2026-11-27T14:40:06.062163+00:00",
+  "total_fetched": 76
 }
